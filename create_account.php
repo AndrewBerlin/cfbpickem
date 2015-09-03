@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>CFB Pickem</title>
-</head>
-<body>
-
 <?php
 	include('account_utils.php');
 	require_once('mysqli_connect.php');
+if (isset($_SESSION['login'])) {
+	header("Location: index.php");
+	exit;
+}
 if (isset($_POST['create_account'])) {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 		if (create_user($dbc, $username, $password, $_POST['password2'], $_POST['firstname'], $_POST['lastname'])) {
 			login($dbc, $username, $password);
-			session_start();
-			$_SESSION['login'] = $_POST['username'];
 			header ("Location: games.php");
 		} else {
 		echo 

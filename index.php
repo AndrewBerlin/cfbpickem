@@ -14,13 +14,13 @@
 			<div class="col-xs-6 col-xs-offset-3">
 
 <?php
+session_start();
 	include('account_utils.php');
 	require_once('mysqli_connect.php');
 if (isset($_POST['login'])) {
+
 		if (login($dbc, $_POST['username'], $_POST['password'])) {
-			session_start();
-			$_SESSION['login'] = $_POST['username'];
-			header ("Location: page1.php");
+			header ("Location: games.php");
 		} else {
 		echo 
 '
@@ -29,10 +29,10 @@ Invalid username/password.
 <form action="index.php" method="post">
 	<label>User name:</label>
 	<input type="text" name="username" class="form-control"/><br/>
-	<label>User password:</label>
+	<label>Password:</label>
 	<input type="password" name="password" class="form-control"/>
 
-	<br/>
+	<br/><br/>
 	<input type="submit" name="login" value="Login" class="btn btn-primary"/>
 	
 </form>
@@ -53,8 +53,8 @@ Invalid username/password.
 <form action="index.php" method="post">
 	<label>User name:</label>
 	<input type="text" name="username" class="form-control"/><br/>
-	<label>User password:</label>
-	<input type="password" name="password" class="form-control"/>
+	<label>Password:</label>
+	<input type="password" name="password" class="form-control"/><br/>
 
 	<p>
 	<input type="submit" name="login" value="Login" class="btn btn-primary"/>
@@ -66,7 +66,7 @@ Invalid username/password.
 	</p>
 </form>
 ';
-	} elseif ($_SESSION['login']) {
+	} elseif (isset($_SESSION['login'])) {
 		header('Location: games.php');
 	} else {
 		echo
@@ -74,8 +74,8 @@ Invalid username/password.
 <form action="index.php" method="post">
 	<label>User name:</label>
 	<input type="text" name="username" class="form-control"/><br/>
-	<label>User password:</label>
-	<input type="password" name="password" class="form-control"/>
+	<label>Password:</label>
+	<input type="password" name="password" class="form-control"/><br/>
 
 	<p>
 	<input type="submit" name="login" value="Login" class="btn btn-primary"/>

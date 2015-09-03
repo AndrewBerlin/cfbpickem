@@ -52,7 +52,8 @@ function login($dbc, $username, $password) {
 	$result = mysqli_fetch_row($response);
 
 	if (password_verify($password, $result[0])) {
-		create_cookie($dbc, $username);
+		session_start();
+		$_SESSION['login'] = $username;
 		return true;
 	}
 
@@ -95,7 +96,7 @@ function has_valid_token($dbc) {
 }
 
 function get_user_id($dbc) {
-	$response = mysqli_query($dbc, "select id from users where username='" . $_COOKIE["username"] . "'");
+	$response = mysqli_query($dbc, "select id from users where username='" . $_SESSION['login'] . "'");
 	$result = mysqli_fetch_row($response);
 
 
@@ -103,12 +104,7 @@ function get_user_id($dbc) {
 }
 
 function logout() {
-	if (isset($_COOKIE["username"])) {
-		setcookie("username", $_COOKIE["username"], time()-1);
-	}
-	if (isset($_COOKIE["auth_token"])) {
-		setcookie("auth_token", $_COOKIE["auth_token"], time()-1);
-	}
+	session_destroy();
 }
 
 function make_pick($dbc, $game_id, $pick, $user_id) {
@@ -133,13 +129,6 @@ function make_pick($dbc, $game_id, $pick, $user_id) {
 
 function get_picks_for_user($dbc) {
 	$response = mysqli_query($dbc, "select name from users u INNER JOIN user_selections pick ON pick.user_id=u.id and u.id=" . get_user_id($dbc) . " INNER JOIN teams t ON t.id=pick.selected_team_id");
-	// $result = mysqli_fetch_row($response);
-
-	// if (password_verify($password, $result[0])) {
-	// 	create_cookie($dbc, $username);
-	// 	return true;
-	// }
-
 	return $response;
 }
 

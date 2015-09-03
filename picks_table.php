@@ -1,7 +1,12 @@
 <?php
+session_start();
+
 require_once('mysqli_connect.php');
 include('account_utils.php');
-
+if (!isset($_SESSION['login'])) {
+	header("Location: index.php");
+	exit;
+}
 if (isset($_POST["logout"])) {
 	logout();
 	header("Location: index.php");
