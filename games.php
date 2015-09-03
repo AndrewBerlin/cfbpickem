@@ -22,7 +22,7 @@ if($response) {
 	<td align="left"><b>Points</b></td></tr>
 	';
 
-echo '<form action="http://localhost/cfbpickem/php/process_picks.php" method="post">
+echo '<form action="process_picks.php" method="post">
 ';
 
 	while ($row = mysqli_fetch_array($response)) {

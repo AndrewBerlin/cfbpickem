@@ -134,7 +134,7 @@ function get_picks_for_user($dbc) {
 
 function get_pick_id($dbc, $game_id, $user_id) {
 	$response = mysqli_query($dbc, "select selected_team_id from user_selections where game_id=" . $game_id . " and user_id=" . $user_id);
-	return mysqli_fetch_row($response);
+	return @mysqli_fetch_row($response);
 }
 
 ?>
