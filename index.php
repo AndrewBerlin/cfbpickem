@@ -2,8 +2,16 @@
 <html>
 <head>
 	<title>CFB Pickem</title>
+	<!-- Bootstrap -->
+	<link href="assets/libs/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+	<div class="container">
+		<div class="text-center">
+			<h1>College Football Pickem<br/><small>by Andrew Berlin</small></h1>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-xs-offset-3">
 
 <?php
 	include('account_utils.php');
@@ -19,18 +27,18 @@ if (isset($_POST['login'])) {
 Invalid username/password.
 
 <form action="index.php" method="post">
-	User name:<br>
-	<input type="text" name="username"><br>
-	User password:<br>
-	<input type="password" name="password">
+	<label>User name:</label>
+	<input type="text" name="username" class="form-control"/><br/>
+	<label>User password:</label>
+	<input type="password" name="password" class="form-control"/>
 
-	<p>
-	<input type="submit" name="login" value="Login" />
-	</p>
+	<br/>
+	<input type="submit" name="login" value="Login" class="btn btn-primary"/>
+	
 </form>
 <form action="create_account.php" method="post">
-	<p>
-	<input type="submit" name="go_to_create_account" value="Create Account" />
+	<p><br/>
+	<input type="submit" name="go_to_create_account" value="Create Account" class="btn btn-primary"/>
 	</p>
 </form>
 ';
@@ -43,18 +51,18 @@ Invalid username/password.
 			echo
 '
 <form action="index.php" method="post">
-	User name:<br>
-	<input type="text" name="username"><br>
-	User password:<br>
-	<input type="password" name="password">
+	<label>User name:</label>
+	<input type="text" name="username" class="form-control"/><br/>
+	<label>User password:</label>
+	<input type="password" name="password" class="form-control"/>
 
 	<p>
-	<input type="submit" name="login" value="Login" />
+	<input type="submit" name="login" value="Login" class="btn btn-primary"/>
 	</p>
 </form>
 <form action="create_account.php" method="post">
 	<p>
-	<input type="submit" name="go_to_create_account" value="Create Account" />
+	<input type="submit" name="go_to_create_account" value="Create Account" class="btn btn-primary"/>
 	</p>
 </form>
 ';
@@ -64,24 +72,30 @@ Invalid username/password.
 		echo
 '
 <form action="index.php" method="post">
-	User name:<br>
-	<input type="text" name="username"><br>
-	User password:<br>
-	<input type="password" name="password">
+	<label>User name:</label>
+	<input type="text" name="username" class="form-control"/><br/>
+	<label>User password:</label>
+	<input type="password" name="password" class="form-control"/>
 
 	<p>
-	<input type="submit" name="login" value="Login" />
+	<input type="submit" name="login" value="Login" class="btn btn-primary"/>
 	</p>
 </form>
 <form action="create_account.php" method="post">
 	<p>
-	<input type="submit" name="go_to_create_account" value="Create Account" />
+	<input type="submit" name="go_to_create_account" value="Create Account" class="btn btn-primary"/>
 	</p>
 </form>
 ';
 	}
 mysqli_close($dbc);
  ?>
-
+ 			</div>
+ 		</div><!--.row-->
+ 	</div><!--.container-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
