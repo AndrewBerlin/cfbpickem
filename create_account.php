@@ -1,4 +1,5 @@
 <?php
+session_start();
 	include('account_utils.php');
 	require_once('mysqli_connect.php');
 if (isset($_SESSION['login'])) {
@@ -10,13 +11,13 @@ if (isset($_POST['create_account'])) {
 	$password = $_POST['password'];
 		if (create_user($dbc, $username, $password, $_POST['password2'], $_POST['firstname'], $_POST['lastname'])) {
 			login($dbc, $username, $password);
-			header ("Location: games.php");
+			header ("Location: picks_table.php");
 		} else {
 		echo 
 '
 Something went wrong and I\'m too tired to figure it out.
 
-<form action="http://localhost/cfbpickem/php/create_account.php" method="post">
+<form action="create_account.php" method="post">
 	User name:<br>
 	<input type="text" name="username"><br>
 	User password:<br>
@@ -38,7 +39,7 @@ Something went wrong and I\'m too tired to figure it out.
 	 else {
 		echo
 '
-<form action="http://localhost/cfbpickem/php/create_account.php" method="post">
+<form action="create_account.php" method="post">
 	User name:<br>
 	<input type="text" name="username"><br>
 	User password:<br>

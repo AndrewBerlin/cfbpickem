@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,13 +17,12 @@
 			<div class="col-xs-6 col-xs-offset-3">
 
 <?php
-session_start();
 	include('account_utils.php');
 	require_once('mysqli_connect.php');
 if (isset($_POST['login'])) {
 
 		if (login($dbc, $_POST['username'], $_POST['password'])) {
-			header ("Location: games.php");
+			header ("Location: picks_table.php");
 		} else {
 		echo 
 '
@@ -67,7 +69,7 @@ Invalid username/password.
 </form>
 ';
 	} elseif (isset($_SESSION['login'])) {
-		header('Location: games.php');
+		header('Location: picks_table.php');
 	} else {
 		echo
 '

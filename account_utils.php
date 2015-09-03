@@ -52,7 +52,6 @@ function login($dbc, $username, $password) {
 	$result = mysqli_fetch_row($response);
 
 	if (password_verify($password, $result[0])) {
-		session_start();
 		$_SESSION['login'] = $username;
 		return true;
 	}

@@ -1,15 +1,33 @@
 <?php
 session_start();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CFB Pickem</title>
+	<!-- Bootstrap -->
+	<link href="assets/libs/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<div class="text-center">
+			<h1>College Football Pickem<br/><small>by Andrew Berlin</small></h1>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-xs-offset-3">
+
+<?php
 
 require_once('mysqli_connect.php');
 include('account_utils.php');
-if (!isset($_SESSION['login'])) {
-	header("Location: index.php");
-	exit;
-}
 if (isset($_POST["logout"])) {
 	logout();
 	header("Location: index.php");
+	exit;
+}
+if (!isset($_SESSION['login'])) {
+	header("Location: index.php");
+	exit;
 }
 
 $games_query = "select g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id LEFT JOIN rankings a_rank ON a_rank.team_id=a.id ORDER BY g.id";
@@ -18,7 +36,7 @@ $names_query = "select firstname, id from users ORDER BY id";
 $games = mysqli_query($dbc, $games_query);
 $names = mysqli_query($dbc, $names_query);
 
-	echo '<table border="1" align="left"
+	echo '<table class="table table-bordered" align="left"
 	cellspacing="5" cellpadding="8"><tr><td></td>';
 
 	while ($row = mysqli_fetch_array($names)) {
@@ -75,13 +93,22 @@ $names = mysqli_query($dbc, $names_query);
 echo '</table>';
 
 echo '
-<form action="games.php">
-    <input type="submit" name="make_picks" value="Make Picks"" />
+<form action="games.php"  method="post">
+    <input type="submit" name="make_picks" value="Make Picks" />
 </form>
-<form action="index.php">
-    <input type="submit" name="logout" value="Log Out"" />
+<form action="picks_table.php" method="post">
+    <input type="submit" name="logout" value="Log Out"/>
 </form>';
 
 mysqli_close($dbc);
 
 ?>
+ 			</div>
+ 		</div><!--.row-->
+ 	</div><!--.container-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
