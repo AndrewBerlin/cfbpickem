@@ -112,7 +112,8 @@ function make_pick($dbc, $game_id, $pick, $user_id) {
 	if ($response->num_rows == 1) {
 		$update_pick = "UPDATE user_selections SET selected_team_id=? WHERE id=?";
 		$stmt = mysqli_prepare($dbc, $update_pick);
-		$game_id = mysqli_fetch_row($response)[0];
+		$row = mysqli_fetch_row($response);
+		$game_id = $row[0];
 
 		mysqli_stmt_bind_param($stmt, "ii", $pick, $game_id);
 		mysqli_stmt_execute($stmt);
