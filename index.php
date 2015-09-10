@@ -2,15 +2,15 @@
 session_start();
 ?>
 <?php
-include('account_utils.php');
-require_once('mysqli_connect.php');
+include 'account_utils.php';
+require_once 'mysqli_connect.php';
 if (isset($_POST['login'])) {
 
-if (login($dbc, $_POST['username'], $_POST['password'])) {
-header ("Location: picks_table.php");
-} else {
-echo 
-'
+	if (login($dbc, $_POST['username'], $_POST['password'])) {
+		header("Location: picks_table.php");
+	} else {
+		echo
+		'
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,14 +44,14 @@ Invalid username/password.
 </p>
 </form>
 ';
-}
+	}
 
 } elseif (isset($_POST['create_account'])) {
-header('Location: create_account.php');
+	header('Location: create_account.php');
 } elseif (isset($_POST['logout'])) {
-logout();
-echo
-'
+	logout();
+	echo
+	'
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,10 +84,10 @@ echo
 </form>
 ';
 } elseif (isset($_SESSION['login'])) {
-header('Location: picks_table.php');
+	header('Location: picks_table.php');
 } else {
-echo
-'
+	echo
+	'
 <!DOCTYPE html>
 <html>
 <head>
@@ -121,7 +121,7 @@ echo
 ';
 }
 mysqli_close($dbc);
- ?>
+?>
  </div>
  </div><!--.row-->
  </div><!--.container-->

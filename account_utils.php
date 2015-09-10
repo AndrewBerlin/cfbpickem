@@ -1,6 +1,5 @@
 <?php
 
-
 // $create_user = "INSERT INTO users (username, password, firstname, lastname) VALUES (?, ?, ?, ?)"
 
 // $get_password = "SELECT password FROM users WHERE username=?"
@@ -8,12 +7,10 @@
 define("GET_PICKS_1", "select name from users u INNER JOIN user_selections pick ON pick.user_id=u.id and u.id=");
 define("GET_PICKS_2", " INNER JOIN teams t ON t.id=pick.selected_team_id");
 
-
-function user_exists($dbc, $username)
-{
+function user_exists($dbc, $username) {
 	//count_users_with_username
-	$query  = "SELECT count(*) FROM users WHERE username='" . $username . "'";
-	
+	$query = "SELECT count(*) FROM users WHERE username='" . $username . "'";
+
 	// $affected_rows = mysqli_stmt_affected_rows($stmt);
 	$response = mysqli_query($dbc, $query);
 	$result = mysqli_fetch_row($response);
@@ -45,8 +42,8 @@ function create_user($dbc, $username, $password, $password2, $firstname, $lastna
 
 function login($dbc, $username, $password) {
 	//count_users_with_username
-	$query  = "SELECT password FROM users WHERE username='" . $username . "'";
-	
+	$query = "SELECT password FROM users WHERE username='" . $username . "'";
+
 	// $affected_rows = mysqli_stmt_affected_rows($stmt);
 	$response = mysqli_query($dbc, $query);
 	$result = mysqli_fetch_row($response);
@@ -77,11 +74,11 @@ function create_cookie($dbc, $username) {
 }
 
 function has_valid_token($dbc) {
-	if (isset ($_COOKIE["username"]) & isset($_COOKIE["auth_token"])) {
-		$query  = "SELECT token FROM tokens WHERE username='" . $_COOKIE["username"] . "'";
-	
+	if (isset($_COOKIE["username"]) & isset($_COOKIE["auth_token"])) {
+		$query = "SELECT token FROM tokens WHERE username='" . $_COOKIE["username"] . "'";
+
 		$response = @mysqli_query($dbc, $query);
-		if($response) {
+		if ($response) {
 			while ($row = mysqli_fetch_array($response)) {
 				if ($row['token'] == $_COOKIE["auth_token"]) {
 					return true;
@@ -97,7 +94,6 @@ function has_valid_token($dbc) {
 function get_user_id($dbc) {
 	$response = mysqli_query($dbc, "select id from users where username='" . $_SESSION['login'] . "'");
 	$result = mysqli_fetch_row($response);
-
 
 	return $result[0];
 }

@@ -5,24 +5,24 @@ if (!isset($_SESSION['login'])) {
 	exit;
 }
 
-require_once('mysqli_connect.php');
-include('account_utils.php');
+require_once 'mysqli_connect.php';
+include 'account_utils.php';
 
 $query = "select g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id LEFT JOIN rankings a_rank ON a_rank.team_id=a.id ORDER BY g.id";
 
 $response = @mysqli_query($dbc, $query);
 
-if($response) {
+if ($response) {
 
 	echo '<table align="left"
 	cellspacing="5" cellpadding="8">
 
-	<td align="left"><b>Home</b></td>
 	<td align="left"><b>Away</b></td>
+	<td align="left"><b>Home</b></td>
 	<td align="left"><b>Points</b></td></tr>
 	';
 
-echo '<form action="process_picks.php" method="post">
+	echo '<form action="process_picks.php" method="post">
 ';
 
 	while ($row = mysqli_fetch_array($response)) {
@@ -54,12 +54,12 @@ echo '<form action="process_picks.php" method="post">
 			$checked2 = "checked";
 		}
 
-		echo 
+		echo
 		'
 		<tr>
-			<td align="left"><input type="radio" name="'. $game_id .'" value="'. $home_team_id .'" ' . $checked1 . '>' . $home . '</td>
+			<td align="left"><input type="radio" name="' . $game_id . '" value="' . $home_team_id . '" ' . $checked1 . '>' . $home . '</td>
 		' .
-		'	<td align="left"><input type="radio" name="'. $game_id .'" value="'. $away_team_id .'" ' . $checked2 . '>' . $away . '</td>
+		'	<td align="left"><input type="radio" name="' . $game_id . '" value="' . $away_team_id . '" ' . $checked2 . '>' . $away . '</td>
 		' .
 		'	<td align="left">' . $points . '</td>';
 		echo '

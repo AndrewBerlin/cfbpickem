@@ -1,7 +1,7 @@
 <?php
 session_start();
-	include('account_utils.php');
-	require_once('mysqli_connect.php');
+include 'account_utils.php';
+require_once 'mysqli_connect.php';
 if (isset($_SESSION['login'])) {
 	header("Location: index.php");
 	exit;
@@ -9,12 +9,12 @@ if (isset($_SESSION['login'])) {
 if (isset($_POST['create_account'])) {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
-		if (create_user($dbc, $username, $password, $_POST['password2'], $_POST['firstname'], $_POST['lastname'])) {
-			login($dbc, $username, $password);
-			header ("Location: picks_table.php");
-		} else {
-		echo 
-'
+	if (create_user($dbc, $username, $password, $_POST['password2'], $_POST['firstname'], $_POST['lastname'])) {
+		login($dbc, $username, $password);
+		header("Location: picks_table.php");
+	} else {
+		echo
+		'
 Something went wrong and I\'m too tired to figure it out.
 
 <form action="create_account.php" method="post">
@@ -34,11 +34,10 @@ Something went wrong and I\'m too tired to figure it out.
 	</p>
 </form>
 ';
-		}
 	}
-	 else {
-		echo
-'
+} else {
+	echo
+	'
 <form action="create_account.php" method="post">
 	User name:<br>
 	<input type="text" name="username"><br>
@@ -56,9 +55,9 @@ Something went wrong and I\'m too tired to figure it out.
 	</p>
 </form>
 ';
-	}
+}
 mysqli_close($dbc);
- ?>
+?>
 
 </body>
 </html>
