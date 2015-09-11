@@ -15,62 +15,67 @@ if (!isset($_SESSION['login'])) {
 
 include 'header.php';
 
-$games_query = "select g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id LEFT JOIN rankings a_rank ON a_rank.team_id=a.id ORDER BY g.id";
-$names_query = "select firstname, id from users ORDER BY id";
+$games_query = "SELECT home.isACC as home_acc, away.isACC as away_acc, home_rank.rank as h_rank, away_rank.rank as a_rank FROM user_selections
+	INNER JOIN games g ON g.id=game_id
+	INNER JOIN teams home ON home.id=home_team_id
+    INNER JOIN teams away ON away.id=away_team_id
+    LEFT JOIN rankings home_rank ON home_rank.team_id=home_team_id AND g.week=home_rank.week
+    LEFT JOIN rankings away_rank ON away_rank.team_id=away_team_id AND g.week=away_rank.week
+    WHERE g.winner_team_id=selected_team_id AND user_id=";
+// $weeks_query = ""
+$names_query = "SELECT firstname, id FROM users";
 
-$games = mysqli_query($dbc, $games_query);
+// $weeks = mysqli_query($dbc, $weeks_query);
 $names = mysqli_query($dbc, $names_query);
 
 echo '<table class="table table-bordered" align="left"
-cellspacing="5" cellpadding="8"><tr><td></td>';
+cellspacing="5" cellpadding="8">';
 
-while ($row = mysqli_fetch_array($names)) {
-	echo '<td align="center"><b>' . $row['firstname'] . '</b></td>';
+// while ($row = mysqli_fetch_array($weeks)) {
+
+$names = mysqli_query($dbc, $names_query);
+$user_id = get_user_id($dbc);
+
+$scores_array = array();
+
+while ($name = mysqli_fetch_array($names)) {
+
+	$response = mysqli_query($dbc, $games_query . $name["id"]);
+	$result = 0;
+	while ($game = mysqli_fetch_array($response)) {
+		$home_acc = $game['home_acc'];
+		$away_acc = $game['away_acc'];
+		$home_rank = $game['h_rank'];
+		$away_rank = $game['a_rank'];
+
+		$points = $home_acc + $away_acc + ($home_rank !== null) + ($away_rank !== null);
+
+		$result += $points;
+	}
+	if ($name['firstname'] == 'Kenny?') {
+		$result += 3;
+	}
+	$scores_array[$name[0]] = $result;
+
+}
+
+arsort($scores_array);
+
+echo '<tr>';
+foreach ($scores_array as $name => $score) {
+	echo '<td align="center"><b>' . $name . '</b></td>';
 }
 echo '</tr>';
 
-while ($row = mysqli_fetch_array($games)) {
+foreach ($scores_array as $name => $score) {
 
-	$game_id = $row['game_id'];
-	$home = $row['home'];
-	$away = $row['away'];
-	$home_team_id = $row['home_team_id'];
-	$away_team_id = $row['away_team_id'];
-	$home_acc = $row['home_acc'];
-	$away_acc = $row['away_acc'];
-	$home_rank = $row['h_rank'];
-	$away_rank = $row['a_rank'];
-
-	if ($home_rank) {
-		$home = '#' . $home_rank . ' ' . $home;
-	}
-
-	if ($away_rank) {
-		$away = '#' . $away_rank . ' ' . $away;
-	}
-
-	$points = $home_acc + $away_acc + ($home_rank !== null) + ($away_rank !== null);
-
-	echo
-	'
-<tr><td align="left"><b><i>' . $home . ' at ' . $away . '</i></b></td>';
-
-	$names = mysqli_query($dbc, $names_query);
-	$user_id = get_user_id($dbc);
-	while ($name = mysqli_fetch_array($names)) {
-		$response = mysqli_query($dbc, "select name, user_id from users u INNER JOIN user_selections pick ON pick.user_id=u.id and u.id=" . $name["id"] . " and pick.game_id=" . $game_id . " INNER JOIN teams t ON t.id=pick.selected_team_id");
-		$result = mysqli_fetch_row($response);
-		$pick = $result[0];
-		// if ($user_id != $result[1]) {
-		// $pick = '-';
-		// }
-
-		echo '<td align="center">' . $pick . '</td>';
-	}
-
-	echo '</tr>';
+	echo '<td align="center">' . $score . '</td>';
 
 }
+
+echo '</tr>';
+
+// }
 
 echo '</table>';
 

@@ -13,7 +13,7 @@ if (isset($_POST['logout'])) {
 	header("Location: index.php");
 } else {
 
-	$query = "select id FROM games where week=1 ORDER BY id";
+	$query = "select id FROM games where week=2 ORDER BY id";
 	$response = mysqli_query($dbc, $query);
 	foreach ($_POST as $value) {
 		if ($value == 'Send') {
