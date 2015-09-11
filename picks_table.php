@@ -76,7 +76,7 @@ while ($row = mysqli_fetch_array($games)) {
 			$fmt_end = "</b>";
 		}
 
-		if ($user_id != $result[1] and !is_null($pick)) {
+		if ($user_id != $result[1] and !is_null($pick) and $week == 2) {
 			$pick = '-';
 		}
 

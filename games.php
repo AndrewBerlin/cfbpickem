@@ -45,7 +45,7 @@ if ($response) {
 			$away = '#' . $away_rank . ' ' . $away;
 		}
 
-		$points = $home_acc + $away_acc + ($home_rank !== null) + ($away_rank !== null);
+		$points = $home_acc + $away_acc + ($home_rank !== null) + ($away_rank !== null) + 2 * ($home_rank > 0 and $home_rank <= 5 and $away_rank > 0 and $away_rank <= 5) + ($home_rank > 0 and $home_rank <= 10 and $away_rank > 0 and $away_rank <= 10);
 		$checked1 = "";
 		$checked2 = "";
 		$pick_id = get_pick_id($dbc, $game_id, get_user_id($dbc))[0];
