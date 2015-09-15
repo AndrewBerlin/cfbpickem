@@ -133,4 +133,20 @@ function get_pick_id($dbc, $game_id, $user_id) {
 	return @mysqli_fetch_row($response);
 }
 
+function is_admin($dbc) {
+	$response = mysqli_query($dbc, "select user_type_id from users where username='" . $_SESSION['login'] . "'");
+	$result = mysqli_fetch_row($response);
+
+	return $result[0] == 1;
+}
+
+function save_winner($dbc, $game_id, $winner_team_id) {
+
+	$make_pick = "UPDATE games SET winner_team_id=? WHERE id=?";
+	$stmt = mysqli_prepare($dbc, $make_pick);
+
+	mysqli_stmt_bind_param($stmt, "ii", $winner_team_id, $game_id);
+	mysqli_stmt_execute($stmt);
+}
+
 ?>

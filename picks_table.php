@@ -71,16 +71,17 @@ while ($row = mysqli_fetch_array($games)) {
 		$fmt_start = "";
 		$fmt_end = "";
 
-		if ($result[2] == $winner_team_id) {
-			$fmt_start = "<b>";
-			$fmt_end = "</b>";
+		if ($result[2] != $winner_team_id) {
+			$fmt = "bgcolor=red";
+		} else {
+			$fmt = "bgcolor=white";
 		}
 
-		if ($user_id != $result[1] and !is_null($pick)) {
-			$pick = '-';
-		}
+		// if ($user_id != $result[1] and !is_null($pick) and $week == 2) {
+		// $pick = '-';
+		// }
 
-		echo '<td align="center">' . $fmt_start . $pick . $fmt_end . '</td>';
+		echo '<td ' . $fmt . ' align="center">' . $pick . '</td>';
 	}
 
 	echo '</tr>';
