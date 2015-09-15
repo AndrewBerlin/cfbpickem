@@ -77,7 +77,7 @@ while ($row = mysqli_fetch_array($games)) {
 			$fmt = "bgcolor=white";
 		}
 
-		// if ($user_id != $result[1] and !is_null($pick) and $week == 2) {
+		// if ($user_id != $result[1] and !is_null($pick) and $week == 3) {
 		// $pick = '-';
 		// }
 
