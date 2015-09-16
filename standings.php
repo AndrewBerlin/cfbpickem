@@ -13,8 +13,12 @@ if (!isset($_SESSION['login'])) {
 	exit;
 }
 
-include 'header.php';
+include 'header.php';?>
 
+<h1 class="text-center">Standings</h1>
+<br/>
+
+<?php
 $games_query = "SELECT home.isACC as home_acc, away.isACC as away_acc, home_rank.rank as h_rank, away_rank.rank as a_rank FROM user_selections
 	INNER JOIN games g ON g.id=game_id
 	INNER JOIN teams home ON home.id=home_team_id
@@ -83,8 +87,9 @@ echo '
 <form action="games.php"  method="post">
     <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
 </form>
+<br/>
 <form action="picks_table.php" method="post">
-    <input type="submit" name="logout" value="Log Out" class="btn btn-primary"/>
+    <input type="submit" name="logout" value="Log Out" class="btn btn-default"/>
 </form>';
 
 mysqli_close($dbc);
