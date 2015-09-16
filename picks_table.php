@@ -13,8 +13,11 @@ if (!isset($_SESSION['login'])) {
 	exit;
 }
 
-include 'header.php';
+include 'header.php';?>
 
+<h1 class="text-center">Picks</h1>
+
+<?php
 if (isset($_GET["week"])) {
 	$week = $_GET['week'];
 } else {

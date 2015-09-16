@@ -8,22 +8,28 @@ if (!isset($_SESSION['login'])) {
 require_once 'mysqli_connect.php';
 include 'account_utils.php';
 
+
+
 $query = "select g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id AND h_rank.week=g.week LEFT JOIN rankings a_rank ON a_rank.team_id=a.id AND a_rank.week=g.week WHERE g.week=2 ORDER BY g.id";
 
-$response = @mysqli_query($dbc, $query);
+$response = @mysqli_query($dbc, $query);?>
 
-if ($response) {
 
-	echo '<table align="left"
+<?php include 'header.php'; ?>
+
+<h1 class="text-center">Games</h1>
+<br/>
+
+<?php if ($response): ?>
+	<table align="left"
 	cellspacing="5" cellpadding="8">
 
 	<td align="left"><b>Away</b></td>
 	<td align="left"><b>Home</b></td>
 	<td align="left"><b>Points</b></td></tr>
-	';
-
-	echo '<form action="process_picks.php" method="post">
-';
+	
+	<form action="process_picks.php" method="post">
+<?php
 
 	while ($row = mysqli_fetch_array($response)) {
 
@@ -71,22 +77,24 @@ if ($response) {
 	}
 
 	echo '</table><p>
-		<input type="submit" name="submit" value="Send" />
+		<input type="submit" name="submit" value="Send" class="btn btn-primary"/>
 		</p>
 		<p>
-		<input type="submit" name="logout" value="Logout" />
+		<input type="submit" name="logout" value="Logout" class="btn btn-default"/>
 		</p>
 
 	</form>';
 
-} else {
+else:
 
 	echo "Couldn't issue database query";
 
 	echo mysqli_error($dbc);
 
-}
+endif;
 
 mysqli_close($dbc);
 
 ?>
+
+<?php include 'footer.php'; ?>

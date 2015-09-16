@@ -3,131 +3,90 @@ session_start();
 ?>
 <?php
 include 'account_utils.php';
-require_once 'mysqli_connect.php';
-if (isset($_POST['login'])) {
+require_once 'mysqli_connect.php';?>
 
-	if (login($dbc, $_POST['username'], $_POST['password'])) {
+
+<?php include 'header.php'; ?>
+	<div class="text-center">
+		<br/>
+		<img src="logo.png" style="width:200px;">
+	</div>
+<?php
+if (isset($_POST['login'])):
+
+	if (login($dbc, $_POST['username'], $_POST['password'])):
 		header("Location: picks_table.php");
-	} else {
-		echo
-		'
-<!DOCTYPE html>
-<html>
-<head>
-<title>CFB Pickem</title>
-<!-- Bootstrap -->
-<link href="assets/libs/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container">
-<div class="text-center">
-<h1>College Football Pickem<br/><small>by Andrew Berlin</small></h1>
-</div>
-<div class="row">
-<div class="col-xs-6 col-xs-offset-3">
+	else:?>
+	<div class="row">
+	<div class="col-md-6 col-md-offset-3">
 
-Invalid username/password.
+	<h3 class="bg-danger" style="padding:10px;">Invalid username/password.</h3>
 
-<form action="index.php" method="post">
-<label>User name:</label>
-<input type="text" name="username" class="form-control"/><br/>
-<label>Password:</label>
-<input type="password" name="password" class="form-control"/>
+	<form action="index.php" method="post">
+	<label>User name:</label>
+	<input type="text" name="username" class="form-control"/><br/>
+	<label>Password:</label>
+	<input type="password" name="password" class="form-control"/>
 
-<br/><br/>
-<input type="submit" name="login" value="Login" class="btn btn-primary"/>
+	<br/><br/>
+	<input type="submit" name="login" value="Login" class="btn btn-primary"/>
 
-</form>
-<form action="create_account.php" method="post">
-<p><br/>
-<input type="submit" name="go_to_create_account" value="Create Account" class="btn btn-primary"/>
-</p>
-</form>
-';
-	}
+	</form>
+	<form action="create_account.php" method="post">
+	<p><br/>
+	<input type="submit" name="go_to_create_account" value="Create Account" class="btn btn-primary"/>
+	</p>
+	</form>
+	<?php endif;
 
-} elseif (isset($_POST['create_account'])) {
+elseif (isset($_POST['create_account'])):
 	header('Location: create_account.php');
-} elseif (isset($_POST['logout'])) {
-	logout();
-	echo
-	'
-<!DOCTYPE html>
-<html>
-<head>
-<title>CFB Pickem</title>
-<!-- Bootstrap -->
-<link href="assets/libs/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container">
-<div class="text-center">
-<h1>College Football Pickem<br/><small>by Andrew Berlin</small></h1>
-</div>
-<div class="row">
-<div class="col-xs-6 col-xs-offset-3">
+elseif (isset($_POST['logout'])):
+	logout();?>
+	<div class="row">
+	<div class="col-md-6 col-md-offset-3">
 
-<form action="index.php" method="post">
-<label>User name:</label>
-<input type="text" name="username" class="form-control"/><br/>
-<label>Password:</label>
-<input type="password" name="password" class="form-control"/><br/>
+	<form action="index.php" method="post">
+	<label>User name:</label>
+	<input type="text" name="username" class="form-control"/><br/>
+	<label>Password:</label>
+	<input type="password" name="password" class="form-control"/><br/>
 
-<p>
-<input type="submit" name="login" value="Login" class="btn btn-primary"/>
-</p>
-</form>
-<form action="create_account.php" method="post">
-<p>
-<input type="submit" name="go_to_create_account" value="Create Account" class="btn btn-primary"/>
-</p>
-</form>
-';
-} elseif (isset($_SESSION['login'])) {
+	<p>
+	<input type="submit" name="login" value="Login" class="btn btn-primary"/>
+	</p>
+	</form>
+	<form action="create_account.php" method="post">
+	<p>
+	<input type="submit" name="go_to_create_account" value="Create Account" class="btn btn-default"/>
+	</p>
+	</form>
+<?php 
+elseif (isset($_SESSION['login'])):
 	header('Location: picks_table.php');
-} else {
-	echo
-	'
-<!DOCTYPE html>
-<html>
-<head>
-<title>CFB Pickem</title>
-<!-- Bootstrap -->
-<link href="assets/libs/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container">
-<div class="text-center">
-<h1>College Football Pickem<br/><small>by Andrew Berlin</small></h1>
-</div>
-<div class="row">
-<div class="col-xs-6 col-xs-offset-3">
+else:?>
+	<div class="row">
+	<div class="col-md-6 col-md-offset-3">
 
-<form action="index.php" method="post">
-<label>User name:</label>
-<input type="text" name="username" class="form-control"/><br/>
-<label>Password:</label>
-<input type="password" name="password" class="form-control"/><br/>
+	<form action="index.php" method="post">
+	<label>User name:</label>
+	<input type="text" name="username" class="form-control"/><br/>
+	<label>Password:</label>
+	<input type="password" name="password" class="form-control"/><br/>
 
-<p>
-<input type="submit" name="login" value="Login" class="btn btn-primary"/>
-</p>
-</form>
-<form action="create_account.php" method="post">
-<p>
-<input type="submit" name="go_to_create_account" value="Create Account" class="btn btn-primary"/>
-</p>
-</form>
-';
-}
+	<p>
+	<input type="submit" name="login" value="Login" class="btn btn-primary"/>
+	</p>
+	</form>
+	<form action="create_account.php" method="post">
+	<p>
+	<input type="submit" name="go_to_create_account" value="Create Account" class="btn btn-default"/>
+	</p>
+	</form>
+<?php 
+endif;
 mysqli_close($dbc);
 ?>
  </div>
  </div><!--.row-->
- </div><!--.container-->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-</body>
-</html>
+<?php include 'footer.php'; ?>
