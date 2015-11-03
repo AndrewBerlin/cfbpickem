@@ -149,4 +149,24 @@ function save_winner($dbc, $game_id, $winner_team_id) {
 	mysqli_stmt_execute($stmt);
 }
 
+function create_game($dbc, $week, $home, $away) {
+
+	$create_game = "INSERT INTO games (week, year, home_team_id, away_team_id) VALUES (?, ?, ?, ?)";
+	$stmt = mysqli_prepare($dbc, $create_game);
+	$year = 2015;
+
+	mysqli_stmt_bind_param($stmt, "iiii", $week, $year, $home, $away);
+	mysqli_stmt_execute($stmt);
+
+}
+
+function save_rank($dbc, $team, $rank, $week) {
+
+	$create_rank = "INSERT INTO rankings (week, team_id, rank) VALUES (?, ?, ?);";
+	$stmt = mysqli_prepare($dbc, $create_rank);
+
+	mysqli_stmt_bind_param($stmt, "iii", $week, $team, $rank);
+	mysqli_stmt_execute($stmt);
+}
+
 ?>

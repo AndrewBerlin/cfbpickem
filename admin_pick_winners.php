@@ -7,9 +7,15 @@ if (!isset($_SESSION['login']) or !is_admin($dbc)) {
 	exit;
 }
 
+if (isset($_GET["week"])) {
+	$week = $_GET['week'];
+} else {
+	$week = 8;
+}
+
 if (isset($_POST['winners'])) {
 
-	$query = "select id FROM games where week=2 ORDER BY id";
+	$query = "select id FROM games where week=" . $week . " ORDER BY id";
 	$response = mysqli_query($dbc, $query);
 	foreach ($_POST as $value) {
 		if ($value == 'Send') {
@@ -19,10 +25,8 @@ if (isset($_POST['winners'])) {
 		$row = mysqli_fetch_array($response);
 		save_winner($dbc, $row['id'], $value);
 	}
-	header("Location: admin.php");
-
 }
-$query = "select g.winner_team_id as 'winner_team_id', g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id AND h_rank.week=g.week LEFT JOIN rankings a_rank ON a_rank.team_id=a.id AND a_rank.week=g.week WHERE g.week=2 ORDER BY g.id";
+$query = "select g.winner_team_id as 'winner_team_id', g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id AND h_rank.week=g.week LEFT JOIN rankings a_rank ON a_rank.team_id=a.id AND a_rank.week=g.week WHERE g.week=" . $week . " ORDER BY g.id";
 
 $response = @mysqli_query($dbc, $query);
 
@@ -36,7 +40,7 @@ if ($response) {
 	<td align="left"><b>Points</b></td></tr>
 	';
 
-	echo '<form action="admin.php" value="winners" method="post">
+	echo '<form action="admin_pick_winners.php" value="winners" method="post">
 ';
 
 	while ($row = mysqli_fetch_array($response)) {

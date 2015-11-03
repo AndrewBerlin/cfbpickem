@@ -2,6 +2,7 @@
 session_start();
 
 require_once 'mysqli_connect.php';
+include 'constants.php';
 include 'account_utils.php';
 if (isset($_POST["logout"])) {
 	logout();
@@ -91,11 +92,19 @@ while ($row = mysqli_fetch_array($games)) {
 
 echo '</table>';
 
+<<<<<<< Updated upstream
 if ($picks_enabled) {
    echo '
    <form action="games.php"  method="post">
      <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
    </form><br />';
+=======
+if (true) {
+	echo '
+<form action="games.php"  method="post">
+    <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
+</form><br />';
+>>>>>>> Stashed changes
 }
 echo '<form action="standings.php" method="get">
     <input type="submit" value="Standings" class="btn btn-primary"/>
