@@ -8,7 +8,7 @@ if (!isset($_SESSION['login'])) {
 require_once 'mysqli_connect.php';
 include 'account_utils.php';
 
-$query = "select g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id AND h_rank.week=g.week LEFT JOIN rankings a_rank ON a_rank.team_id=a.id AND a_rank.week=g.week WHERE g.week=2 ORDER BY g.id";
+$query = "select g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id AND h_rank.week=g.week LEFT JOIN rankings a_rank ON a_rank.team_id=a.id AND a_rank.week=g.week WHERE g.week=9 ORDER BY g.id";
 
 $response = @mysqli_query($dbc, $query);
 
@@ -46,16 +46,17 @@ if ($response) {
 		}
 
 		$points = $home_acc + $away_acc + ($home_rank !== null) + ($away_rank !== null) + 2 * ($home_rank > 0 and $home_rank <= 5 and $away_rank > 0 and $away_rank <= 5) + ($home_rank > 0 and $home_rank <= 10 and $away_rank > 0 and $away_rank <= 10);
-		$checked1 = "";
+		$checked1 = "checked";
 		$checked2 = "";
 		$pick_id = get_pick_id($dbc, $game_id, get_user_id($dbc))[0];
 		if ($pick_id == $away_team_id) {
 			$checked1 = "";
 			$checked2 = "checked";
-		} else if ($pick_id == $home_team_id) {
-			$checked1 = "checked";
-			$checked2 = "";
 		}
+// else if ($pick_id == $home_team_id) {
+//			$checked1 = "checked";
+//			$checked2 = "";
+//		}
 
 		echo
 		'

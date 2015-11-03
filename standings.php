@@ -53,8 +53,27 @@ while ($name = mysqli_fetch_array($names)) {
 		$result += $points;
 	}
 	if ($name['firstname'] == 'Kenny?') {
-		$result += 3;
-	}
+		$result += 3; // bonus week 2
+                $result += 4; // bonus week 3
+	} else if ($name['firstname'] == 'Gracie') {
+                $result += 1; // bonus week 3
+        } else if ($name['firstname'] == 'Jason') {
+                $result += 27; // missed week 1
+        } else if ($name['firstname'] == 'Kevin') {
+                $result += 27; // missed week 1
+        } else if ($name['firstname'] == 'Jonathan') {
+                $result += 28; // missed week 2
+        } else if ($name['firstname'] == 'Matt') {
+                $result += 23; // missed week 3
+                $result += 3; //bonus week 4
+        } else if ($name['firstname'] == 'Andrew') {
+                $result += 3; //bonus week 6
+                $result += 1; //bonus week 8
+        } else if ($name['firstname'] == 'Billy') {
+                $result += 3; //bonus week 7
+        } else if ($name['firstname'] == 'Britt') {
+                $result += 1; //bonus week 8
+        }
 	$scores_array[$name[0]] = $result;
 
 }
@@ -79,11 +98,11 @@ echo '</tr>';
 
 echo '</table>';
 
-echo '
-<form action="games.php"  method="post">
-    <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
-</form>
-<form action="picks_table.php" method="post">
+//echo '
+//<form action="games.php"  method="post">
+ //   <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
+//</form>
+echo '<form action="picks_table.php" method="post">
     <input type="submit" name="logout" value="Log Out" class="btn btn-primary"/>
 </form>';
 

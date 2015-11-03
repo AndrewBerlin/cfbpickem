@@ -18,8 +18,9 @@ include 'header.php';
 if (isset($_GET["week"])) {
 	$week = $_GET['week'];
 } else {
-	$week = 2;
+	$week = 9;
 }
+$picks_enabled = false;
 
 $games_query = "select winner_team_id, g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id AND h_rank.week=g.week LEFT JOIN rankings a_rank ON a_rank.team_id=a.id AND a_rank.week=g.week WHERE g.week=" . $week . " ORDER BY g.id";
 $names_query = "select firstname, id from users ORDER BY id";
@@ -71,15 +72,15 @@ while ($row = mysqli_fetch_array($games)) {
 		$fmt_start = "";
 		$fmt_end = "";
 
-		if ($result[2] != $winner_team_id) {
+		if ($result[2] != $winner_team_id and !is_null($winner_team_id)) {
 			$fmt = "bgcolor=red";
 		} else {
 			$fmt = "bgcolor=white";
 		}
 
-		// if ($user_id != $result[1] and !is_null($pick) and $week == 3) {
-		// $pick = '-';
-		// }
+		 if ($user_id != $result[1] and !is_null($pick) and $week == 9 and $picks_enabled) {
+		    $pick = '-';
+		 }
 
 		echo '<td ' . $fmt . ' align="center">' . $pick . '</td>';
 	}
@@ -90,17 +91,26 @@ while ($row = mysqli_fetch_array($games)) {
 
 echo '</table>';
 
-echo '
-<form action="games.php"  method="post">
-    <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
-</form><br />
-<form action="standings.php" method="get">
+if ($picks_enabled) {
+   echo '
+   <form action="games.php"  method="post">
+     <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
+   </form><br />';
+}
+echo '<form action="standings.php" method="get">
     <input type="submit" value="Standings" class="btn btn-primary"/>
 </form><br />
 <form action="picks_table.php" method="get">
 	Week:
     <input type="submit" name="week" value="1" class="btn btn-primary"/>
     <input type="submit" name="week" value="2" class="btn btn-primary"/>
+    <input type="submit" name="week" value="3" class="btn btn-primary"/>
+    <input type="submit" name="week" value="4" class="btn btn-primary"/>
+    <input type="submit" name="week" value="5" class="btn btn-primary"/>
+    <input type="submit" name="week" value="6" class="btn btn-primary"/>
+    <input type="submit" name="week" value="7" class="btn btn-primary"/>
+    <input type="submit" name="week" value="8" class="btn btn-primary"/>
+    <input type="submit" name="week" value="9" class="btn btn-primary"/>
 </form><br />
 <form action="picks_table.php" method="post">
     <input type="submit" name="logout" value="Log Out" class="btn btn-primary"/>
@@ -111,4 +121,3 @@ mysqli_close($dbc);
 include 'footer.php';
 
 ?>
-
