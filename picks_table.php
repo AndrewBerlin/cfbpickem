@@ -21,7 +21,6 @@ if (isset($_GET["week"])) {
 } else {
 	$week = WEEK;
 }
-$picks_enabled = false;
 
 $games_query = "select winner_team_id, g.id as 'game_id', home_team_id, away_team_id, h_rank.rank as 'h_rank', h.name as 'home', a.name as 'away', a_rank.rank as 'a_rank', h.isACC as 'home_acc', a.isAcc as 'away_acc' FROM games g INNER JOIN teams h ON g.home_team_id = h.id INNER JOIN teams a ON g.away_team_id=a.id LEFT JOIN rankings h_rank ON h_rank.team_id=h.id AND h_rank.week=g.week LEFT JOIN rankings a_rank ON a_rank.team_id=a.id AND a_rank.week=g.week WHERE g.week=" . $week . " ORDER BY g.id";
 $names_query = "select firstname, id from users ORDER BY id";
@@ -79,7 +78,7 @@ while ($row = mysqli_fetch_array($games)) {
 			$fmt = "bgcolor=white";
 		}
 
-		if ($user_id != $result[1] and !is_null($pick) and $week == WEEK and $picks_enabled) {
+		if ($user_id != $result[1] and !is_null($pick) and $week == WEEK and PICKS_ENABLED) {
 			$pick = '-';
 		}
 
@@ -92,7 +91,7 @@ while ($row = mysqli_fetch_array($games)) {
 
 echo '</table>';
 
-if ($picks_enabled) {
+if (PICKS_ENABLED) {
 	echo '
    <form action="games.php"  method="post">
      <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
