@@ -12,15 +12,9 @@ if (isset($_POST['logout'])) {
 	header("Location: index.php");
 } elseif (!$_POST['submit']) {
 	header("Location: index.php");
-<<<<<<< Updated upstream
 } else {
-return;
-	$query = "select id FROM games where week=9 ORDER BY id";
-=======
-} else if (true) {
-
-	$query = "select id FROM games where week=3 ORDER BY id";
->>>>>>> Stashed changes
+//return;
+	$query = "select id FROM games where week=" . WEEK . " ORDER BY id";
 	$response = mysqli_query($dbc, $query);
 	foreach ($_POST as $value) {
 		if ($value == 'Send') {

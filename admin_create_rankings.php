@@ -2,6 +2,7 @@
 session_start();
 require_once 'mysqli_connect.php';
 include 'account_utils.php';
+include 'constants.php';
 if (!isset($_SESSION['login']) or !is_admin($dbc)) {
 	header("Location: index.php");
 	exit;
@@ -10,7 +11,7 @@ if (!isset($_SESSION['login']) or !is_admin($dbc)) {
 if (isset($_GET["week"])) {
 	$week = $_GET['week'];
 } else {
-	$week = 9;
+	$week = WEEK;
 }
 
 if (isset($_POST['new_rank'])) {

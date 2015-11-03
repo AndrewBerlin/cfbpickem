@@ -19,7 +19,7 @@ include 'header.php';
 if (isset($_GET["week"])) {
 	$week = $_GET['week'];
 } else {
-	$week = 9;
+	$week = WEEK;
 }
 $picks_enabled = false;
 
@@ -79,7 +79,7 @@ while ($row = mysqli_fetch_array($games)) {
 			$fmt = "bgcolor=white";
 		}
 
-		if ($user_id != $result[1] and !is_null($pick) and $week == 9 and $picks_enabled) {
+		if ($user_id != $result[1] and !is_null($pick) and $week == WEEK and $picks_enabled) {
 			$pick = '-';
 		}
 
