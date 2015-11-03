@@ -79,9 +79,9 @@ while ($row = mysqli_fetch_array($games)) {
 			$fmt = "bgcolor=white";
 		}
 
-		 if ($user_id != $result[1] and !is_null($pick) and $week == 9 and $picks_enabled) {
-		    $pick = '-';
-		 }
+		if ($user_id != $result[1] and !is_null($pick) and $week == 9 and $picks_enabled) {
+			$pick = '-';
+		}
 
 		echo '<td ' . $fmt . ' align="center">' . $pick . '</td>';
 	}
@@ -92,19 +92,11 @@ while ($row = mysqli_fetch_array($games)) {
 
 echo '</table>';
 
-<<<<<<< Updated upstream
 if ($picks_enabled) {
-   echo '
+	echo '
    <form action="games.php"  method="post">
      <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
    </form><br />';
-=======
-if (true) {
-	echo '
-<form action="games.php"  method="post">
-    <input type="submit" name="make_picks" value="Make Picks" class="btn btn-primary"/>
-</form><br />';
->>>>>>> Stashed changes
 }
 echo '<form action="standings.php" method="get">
     <input type="submit" value="Standings" class="btn btn-primary"/>
